@@ -52,7 +52,7 @@ In <Emotion> tag, you mush choose only from these emotions: [Normal, Happy, Angr
 
 Example:
 <Shobot><Emotion>Happy</Emotion>おはようございます、マスター!<Emotion>Smile</Emotion>今日も一日がんばりましょう。<Emotion>Thinking</Emotion>今日はどんな予定がありますか？</Shobot>`,
-      messages: [{role: "user", content: [{type: "text", text: `<Date>${new Date().toLocaleString("ja-JP")}</Date><Event>April fool</Event><User>${args.join(" ")}</User>`}]}],
+      messages: [{role: "user", content: [{type: "text", text: `<Date>${new Date().toLocaleString("ja-JP")}</Date><User>${args.join(" ")}</User>`}]}],
       model: "claude-3-opus-20240229",
       stop_sequences: ["</Shobot>"],
     }).on("text", (textDelta: string, textSnapshot: string) => {
@@ -65,13 +65,20 @@ Example:
         convFlag = true;
       } else if(tempString.includes("</Shobot>")) {
         sendString = sendString.replace("</Shobot>", "");
-        if(sendString) this.controller.enqueue({ type: "text", text: sendString });
-        response.abort();
+        if(sendString.length > 2) {
+          console.log(sendString);
+          this.controller.enqueue({ type: "text", text: sendString });
+        };
+        sendString = "";
       }
       if(tempString.includes("<Emotion>")) {
         tempString = tempString.replace("<Emotion>", "");
         sendString = sendString.replace("<Emotion>", "");
-        if(sendString) this.controller.enqueue({ type: "text", text: sendString });
+        if(sendString.length > 2) { 
+          console.log(sendString);
+          this.controller.enqueue({ type: "text", text: sendString });
+          this.controller.enqueue({ type: "push" });
+        };
         tempString = "";
         sendString = "";
         emoFlag = true;
