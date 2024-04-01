@@ -30,7 +30,7 @@ import Shobot from "./shobot/Shobot";
 import { ShobotMessageToHTMLTransformStream } from "./util";
 import { CLAUDE } from "./claude";
 
-const LAST_MODIFIYED_DATE = new Date(2024, 4, 1);
+const LAST_MODIFIYED_DATE = new Date(2024, 4, 2, 0, 0);
 export default {
   async fetch(
     request: Request,
