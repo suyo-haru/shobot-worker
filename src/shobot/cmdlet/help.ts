@@ -81,11 +81,12 @@ export default class HelpCmdlet extends ShobotCmdletBase {
           text: "このコマンドの説明はありません。",
         });
       }
+    } else {
+      this.controller.enqueue({
+        type: "text",
+        text: "えらー！コマンド(" + arg[0] + ")なし！",
+      });
     }
-    this.controller.enqueue({
-      type: "text",
-      text: "えらー！コマンド(" + arg[0] + ")なし！",
-    });
     return;
   }
 }
