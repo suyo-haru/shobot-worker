@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>Console</title>
+    <style>
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: black;
+          color: white;
+        }
+      }
+    </style>
+  </head>
+  <body style="height: 100%; width: 100%; margin: 0; padding: 0;color-scheme: light dark;">
+    <form style="height: 1.5em; width: auto; margin: 5px;">
+      <textarea id="cmdline" name="cmdline" rows="1" style="resize: horizontal;"></textarea>
+      <input type="submit" id="send" style="margin: 0;">
+    </form>
+    <div id="result_container" style="max-height: calc(100vh - 1.5em - 10px); overflow: auto; margin-left: 5px;">
+      <code id="result"></code>
+    </div>
+    <script>
+      function clickSubmit(event) {
+        if(event)event.preventDefault();
+        fetch("/api/reply", {method: "POST", body: document.getElementById("cmdline").value}).then(async (response) => {
+          const responseBody = response.body;
+          if(responseBody !== null) {
+            const responceTextStream = responseBody.pipeThrough(new TextDecoderStream());
+            responceTextStream.pipeTo(new WritableStream({
+              write(chunk, controller) {
+                document.getElementById("result").innerHTML += chunk;
+                document.getElementById("result_container").scrollBy(0, 100);
+              },
+              close() {
+                document.getElementById("result").innerHTML += "<br />";
+              }
+            }));
+          }
+        })
+      }
+      document.getElementById("send").onclick = clickSubmit
+    </script>
+  </body>
+</html>

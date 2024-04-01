@@ -1,7 +1,9 @@
 name = "shobot-worker"
 main = "src/index.ts"
 compatibility_date = "2024-02-08"
+minify = true
 
+[vars]
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
 # Note: Use secrets to store sensitive data.
 # Docs: https://developers.cloudflare.com/workers/platform/environment-variables
@@ -13,7 +15,9 @@ compatibility_date = "2024-02-08"
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
+[[kv_namespaces]]
+binding = "Shobot_KV"
+id = "08db87742332410688ff9bbc572c971d"
 # Bind an R2 Bucket. Use R2 to store arbitrarily large blobs of data, such as files.
 # Docs: https://developers.cloudflare.com/r2/api/workers/workers-api-usage/
 # [[r2_buckets]]
@@ -49,3 +53,9 @@ compatibility_date = "2024-02-08"
 # [[migrations]]
 # tag = "v1"
 # new_classes = ["MyDurableObject"]
+
+[[d1_databases]]
+binding = "Shobot_DB"
+database_name = "shobot"
+database_id = "7c99a3d1-5a63-41cd-bc1c-d80d202f0f37"
+preview_database_id = "DB" # Required for Pages local development
