@@ -75,6 +75,9 @@ export default {
         if (request.method === "POST") {
           const shobot = new Shobot();
           return new Response(
+            //FIXME: 「おはなし」Cmdletが全体公開されないようにするためのやっつけ
+            //      安全なコンテキストかどうかを把握できるようinterfaceを拡張する？
+            //      OR 特定のコマンド実行の禁止を制御できるようにする？
             shobot.request("communicate", (await request.text()).replace(/text|おはなし|お話/, "")).pipeThrough(
               new ShobotMessageToHTMLTransformStream(),
             ).pipeThrough(new TextEncoderStream()),
