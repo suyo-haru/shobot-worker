@@ -22,7 +22,14 @@ export default class TalkCmdlet extends ShobotCmdletBase {
       fetch: globalThis.fetch
     });
     console.log(args);
-    console.log(new Date().toLocaleString("ja-JP"));
+    const now = new Date().toLocaleString("ja-JP", {
+      dateStyle: 'full',
+      timeZone: 'JST',
+    }) + " " + new Date().toLocaleTimeString("ja-JP", {
+      hour12: true,
+      timeZone: 'JST',
+    });
+    console.log(now);
     let tempString = "";
     let convFlag = false;
     let emoFlag = false;
@@ -52,7 +59,7 @@ In <Emotion> tag, you mush choose only from these emotions: [Normal, Happy, Angr
 
 Example:
 <Shobot><Emotion>Happy</Emotion>おはようございます、マスター!<Emotion>Smile</Emotion>今日も一日がんばりましょう。<Emotion>Thinking</Emotion>今日はどんな予定がありますか？</Shobot>`,
-      messages: [{role: "user", content: [{type: "text", text: `<Date>${new Date().toLocaleString("ja-JP")}</Date><User>${args.join(" ")}</User>`}]}],
+      messages: [{role: "user", content: [{type: "text", text: `<Date>${now}</Date><User>${args.join(" ")}</User>`}]}],
       model: "claude-3-opus-20240229",
       stop_sequences: ["</Shobot>"],
     }).on("text", (textDelta: string, textSnapshot: string) => {
@@ -66,8 +73,8 @@ Example:
       } else if(tempString.includes("</Shobot>")) {
         sendString = sendString.replace("</Shobot>", "");
         if(sendString.length > 2) {
-          console.log(sendString);
-          this.controller.enqueue({ type: "text", text: sendString });
+          console.log(sendString.replace(/^[\n\r]*|[\n\r]*$/g, ""));
+          this.controller.enqueue({ type: "text", text: sendString.replace(/^[\n\r]*|[\n\r]*$/g, "").trim() });
         };
         sendString = "";
       }
@@ -75,8 +82,8 @@ Example:
         tempString = tempString.replace("<Emotion>", "");
         sendString = sendString.replace("<Emotion>", "");
         if(sendString.length > 2) { 
-          console.log(sendString);
-          this.controller.enqueue({ type: "text", text: sendString });
+          console.log(sendString.replace(/^[\n\r]*|[\n\r]*$/g, "").trim());
+          this.controller.enqueue({ type: "text", text: sendString.replace(/^[\n\r]*|[\n\r]*$/g, "").trim() });
           this.controller.enqueue({ type: "push" });
         };
         tempString = "";
