@@ -85,8 +85,8 @@ export class LINEMessageClient {
       }),
     });
     if (!response.ok) {
-      console.log("Send Failed: " + response.text());
-      throw Error("Send Failed: " + response.text());
+      console.log("Send Failed: " + await response.text());
+      throw Error("Send Failed: " + await response.text());
     } else {
       return;
     }
@@ -106,8 +106,8 @@ export class LINEMessageClient {
       }),
     });
     if (!response.ok) {
-      console.log("Send Failed: " + response.text());
-      throw Error("Send Failed: " + response.text());
+      console.log("Send Failed: " + await response.text());
+      throw Error("Send Failed: " + await response.text());
     } else {
       return;
     }
