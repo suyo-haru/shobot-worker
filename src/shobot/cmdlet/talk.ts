@@ -76,16 +76,6 @@ Example:
       if (tempString.includes("<Shobot>")) {
         tempString = tempString.replace("<Shobot>", "");
         convFlag = true;
-      } else if (tempString.includes("</Shobot>")) {
-        sendString = sendString.replace("</Shobot>", "");
-        if (sendString.length > 2) {
-          console.log(sendString.replace(/^[\n\r]*|[\n\r]*$/g, ""));
-          this.controller.enqueue({
-            type: "text",
-            text: sendString.replace(/^[\n\r]*|[\n\r]*$/g, "").trim(),
-          });
-        }
-        sendString = "";
       }
       if (tempString.includes("<Emotion>")) {
         tempString = tempString.replace("<Emotion>", "");
@@ -108,7 +98,13 @@ Example:
         emoFlag = false;
       }
     });
-    await response.done();
+    console.log(await response.finalText());
+    if (sendString) {
+      this.controller.enqueue({
+        type: "text",
+        text: sendString.replace(/^[\n\r]*|[\n\r]*$/g, "").trim(),
+      });
+    }
     console.log("完了");
     return;
   }
