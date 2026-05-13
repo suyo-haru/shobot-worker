@@ -24,7 +24,6 @@ bun x wrangler dev
 
 * Cloudflare Workers
   * Cloudflare D1
-  * ~~Cloudflare KV~~
 
 ### Service
 
