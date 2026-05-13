@@ -2,6 +2,8 @@ name = "shobot-worker"
 main = "src/index.ts"
 compatibility_date = "2024-02-08"
 minify = true
+workers_dev = false
+preview_urls = false
 
 [vars]
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
