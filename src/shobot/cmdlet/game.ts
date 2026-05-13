@@ -91,10 +91,6 @@ const gameinfo: ShobotFlexMessage = {
           "layout": "horizontal",
           "contents": [
             {
-              "type": "spacer",
-              "size": "md"
-            },
-            {
               "type": "text",
               "text": "Coming Soon...",
               "wrap": true,
@@ -112,10 +108,6 @@ const gameinfo: ShobotFlexMessage = {
               "size": "md",
               "align": "center",
               "color": "#bababa"
-            },
-            {
-              "type": "spacer",
-              "size": "xl"
             }
           ]
         }

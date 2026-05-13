@@ -27,7 +27,7 @@ export async function validateSignature(
   );
 }
 
-import type { EventSource, Message, WebhookRequestBody } from "@line/bot-sdk";
+import type { EventSource, Message, WebhookRequestBody } from "./type";
 export function validateBody(json: any) {
   return json as WebhookRequestBody;
 }
@@ -59,7 +59,7 @@ export class LINEMessageClient {
     } else {
       switch (eventSource.type) {
         case "user":
-          await this.sendPushMessage(messages, eventSource.userId);
+          await this.sendPushMessage(messages, eventSource.userId!);
           break;
         case "group":
           await this.sendPushMessage(messages, eventSource.groupId);

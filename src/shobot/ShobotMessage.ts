@@ -1,4 +1,4 @@
-import type { FlexContainer } from "@line/bot-sdk";
+import type { FlexContainer } from "../line/type";
 import { ShobotAction } from "./ShobotAction";
 
 export type ShobotMessage =

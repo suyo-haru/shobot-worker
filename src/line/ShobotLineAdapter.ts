@@ -1,4 +1,4 @@
-import type { EventSource, Message, WebhookRequestBody } from "@line/bot-sdk";
+import type { EventSource, Message, WebhookRequestBody } from "./type";
 import Shobot from "../shobot/Shobot";
 import { ShobotMessage } from "../shobot/ShobotMessage";
 import { LINEMessageClient } from "./util";
@@ -16,7 +16,7 @@ export default async function ShobotLineAdapter(
         {
           switch (event.message.type) {
             case "text": {
-              if (event.source.type !== "user") {
+              if (event.source!.type !== "user") {
                 if (/^[@＠](しょぼん|sbn)/.test(event.message.text)) {
                   await shobot.request(
                     "communicate",
@@ -27,7 +27,7 @@ export default async function ShobotLineAdapter(
                   ).pipeTo(
                     new LINEShobotMessageStream(
                       channelAccessToken,
-                      event.source,
+                      event.source!,
                       event.replyToken,
                     ),
                   );
@@ -36,7 +36,7 @@ export default async function ShobotLineAdapter(
                 await shobot.request("communicate", event.message.text).pipeTo(
                   new LINEShobotMessageStream(
                     channelAccessToken,
-                    event.source,
+                    event.source!,
                     event.replyToken,
                   ),
                 );
@@ -51,7 +51,7 @@ export default async function ShobotLineAdapter(
           await shobot.request("select", event.postback.data).pipeTo(
             new LINEShobotMessageStream(
               channelAccessToken,
-              event.source,
+              event.source!,
               event.replyToken,
             ),
           );
@@ -62,7 +62,7 @@ export default async function ShobotLineAdapter(
           await shobot.request("wake").pipeTo(
             new LINEShobotMessageStream(
               channelAccessToken,
-              event.source,
+              event.source!,
               event.replyToken,
             ),
           );
@@ -73,7 +73,7 @@ export default async function ShobotLineAdapter(
           await shobot.request("wake", "first").pipeTo(
             new LINEShobotMessageStream(
               channelAccessToken,
-              event.source,
+              event.source!,
               event.replyToken,
             ),
           );
